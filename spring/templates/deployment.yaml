@@ -1,0 +1,74 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ template "helmchart.fullname" . }}
+  labels:
+    app: {{ template "helmchart.name" . }}
+    chart: {{ template "helmchart.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ template "helmchart.name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "helmchart.name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 8082
+              protocol: TCP
+              volumeMounts:
+                - name: credenciais
+                  mountPath: "/etc/credenciais"    
+          env:
+          - name: RABBIT_HOST
+            value: {{ .Values.env.RABBIT_HOST }}
+          - name: RABBIT_PORT
+            value: "{{ .Values.env.RABBIT_PORT }}"
+          - name: RABBIT_USERNAME
+            value: "{{ .Values.env.RABBIT_USERNAME }}"
+          - name: RABBIT_PASSWORD
+            value: "{{ .Values.env.RABBIT_PASSWORD }}"
+          # Realizando config da Secret
+          - name: SECRET_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: db-secret-product-catalog
+                key: username
+          - name: SECRET_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: db-secret-product-catalog
+                key: password
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    volumes:
+    - name: credenciais
+      secret:
+        secretName: db-secret-product-catalog
+        items:
+        - key: username
+          path: my-group/my-username
+          mode: 511
