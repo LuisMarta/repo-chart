@@ -5,5 +5,5 @@ keywords:
 - k8s
 name: spring
 sources:
-- https://github.com/LuisMarta/repo-chart/spring
+- https://github.com/LuisMarta/repo-chart
 version: 0.1.2
