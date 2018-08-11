@@ -2,9 +2,9 @@ apiVersion: v1
 entries:
   spring:
   - apiVersion: v1
-    created: 2018-08-10T23:03:01.959544366-03:00
+    created: 2018-08-10T23:19:27.848317098-03:00
     description: A Helm chart for Kubernetes
-    digest: 5382bc3154de6f9773f9dc8f287ac30faa2d596d36c11dd404c832de7c50a92e
+    digest: d012c635647af76856a783d33dd0bde767a6b34c0abd4adec23485dc24c8b8d4
     keywords:
     - spring
     - k8s
@@ -12,6 +12,6 @@ entries:
     sources:
     - https://github.com/LuisMarta/repo-chart
     urls:
-    - spring-0.1.2.tgz
-    version: 0.1.2
-generated: 2018-08-10T23:03:01.957286644-03:00
+    - spring-0.1.3.tgz
+    version: 0.1.3
+generated: 2018-08-10T23:19:27.837133591-03:00
