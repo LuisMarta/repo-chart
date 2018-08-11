@@ -45,7 +45,7 @@ tolerations: []
 affinity: {}
 
 env:
-	RABBIT_HOST: "test"
-	RABBIT_PORT: "test"
-	RABBIT_USERNAME: "test"
-	RABBIT_PASSWORD: "hjahjahj"
+  RABBIT_HOST: test
+  RABBIT_PORT: test
+  RABBIT_USERNAME: test
+  RABBIT_PASSWORD: test
